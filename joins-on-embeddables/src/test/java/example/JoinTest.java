@@ -40,7 +40,7 @@ public class JoinTest {
 
 		Root<User> root = query.from(User.class);
 
-		root.join("finances").join("selectedAmount");
+		root.join("finances").join("selectedAccount");
 	}
 
 	@Test
