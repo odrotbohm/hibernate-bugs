@@ -13,16 +13,23 @@
 
 	<properties>
 
-		<hibernate>5.0.8.Final</hibernate>
+		<hibernate>5.1.0.Final</hibernate>
 		<hsqldb1>1.8.0.10</hsqldb1>
 
 	</properties>
 
 	<modules>
 		<module>joins-on-embeddables</module>
+		<module>generic-id-types</module>
 	</modules>
 
 	<profiles>
+		<profile>
+			<id>hibernate-41</id>
+			<properties>
+				<hibernate>4.1.12.Final</hibernate>
+			</properties>
+		</profile>
 		<profile>
 			<id>hibernate-42</id>
 			<properties>
@@ -33,6 +40,12 @@
 			<id>hibernate-43</id>
 			<properties>
 				<hibernate>4.3.11.Final</hibernate>
+			</properties>
+		</profile>
+		<profile>
+			<id>hibernate-5</id>
+			<properties>
+				<hibernate>5.0.9.Final</hibernate>
 			</properties>
 		</profile>
 		<profile>
@@ -78,6 +91,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<version>1.3</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -111,6 +131,17 @@
 						<version>1.3.0.Final</version>
 					</dependency>
 				</dependencies>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<!-- http://maven.apache.org/plugins/maven-compiler-plugin/ -->
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
 			</plugin>
 
 		</plugins>
