@@ -15,6 +15,7 @@
 
 		<hibernate>5.1.0.Final</hibernate>
 		<hsqldb1>1.8.0.10</hsqldb1>
+		<hibernate-artifact>hibernate-entitymanager</hibernate-artifact>
 
 	</properties>
 
@@ -60,13 +61,20 @@
 				</repository>
 			</repositories>
 		</profile>
+		<profile>
+			<id>hibernate-52</id>
+			<properties>
+				<hibernate>5.2.1.Final</hibernate>
+				<hibernate-artifact>hibernate-core</hibernate-artifact>
+			</properties>
+		</profile>
 	</profiles>
 
 	<dependencies>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
+			<artifactId>${hibernate-artifact}</artifactId>
 			<version>${hibernate}</version>
 		</dependency>
 
@@ -80,7 +88,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.16.6</version>
+			<version>1.16.8</version>
 			<scope>provided</scope>
 		</dependency>
 
