@@ -15,9 +15,9 @@
  */
 package example;
 
-import java.io.Serializable;
+import jakarta.persistence.MappedSuperclass;
 
-import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 
 /**
  * @author Oliver Gierke

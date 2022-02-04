@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>de.olivergierke.samples</groupId>
+		<groupId>de.odrotbohm.samples</groupId>
 		<artifactId>hibernate-bugs</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>

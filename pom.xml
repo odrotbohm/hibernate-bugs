@@ -3,7 +3,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>de.olivergierke.samples</groupId>
+	<groupId>de.odrotbohm.samples</groupId>
 	<artifactId>hibernate-bugs</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -13,46 +13,33 @@
 
 	<properties>
 
-		<hibernate>5.1.0.Final</hibernate>
+		<hibernate.version>5.6.5.Final</hibernate.version>
+		<querydsl.version>5.0.0</querydsl.version>
+		<querydsl.classifier>jakarta</querydsl.classifier>
 		<hsqldb1>1.8.0.10</hsqldb1>
-		<hibernate-artifact>hibernate-entitymanager</hibernate-artifact>
+		<hibernate.group>org.hibernate</hibernate.group>
+		<hibernate.artifact-suffix>-jakarta</hibernate.artifact-suffix>
 
 	</properties>
 
 	<modules>
 		<module>joins-on-embeddables</module>
 		<module>generic-id-types</module>
+		<module>h6-querydsl</module>
+		<module>h6-embedded-id-record</module>
 	</modules>
 
 	<profiles>
 		<profile>
-			<id>hibernate-41</id>
+			<id>hibernate-5-javax</id>
 			<properties>
-				<hibernate>4.1.12.Final</hibernate>
-			</properties>
-		</profile>
-		<profile>
-			<id>hibernate-42</id>
-			<properties>
-				<hibernate>4.2.21.Final</hibernate>
-			</properties>
-		</profile>
-		<profile>
-			<id>hibernate-43</id>
-			<properties>
-				<hibernate>4.3.11.Final</hibernate>
-			</properties>
-		</profile>
-		<profile>
-			<id>hibernate-5</id>
-			<properties>
-				<hibernate>5.0.9.Final</hibernate>
+				<hibernate.artifact-suffix></hibernate.artifact-suffix>
 			</properties>
 		</profile>
 		<profile>
 			<id>hibernate-5-next</id>
 			<properties>
-				<hibernate>5.0.9-SNAPSHOT</hibernate>
+				<hibernate.version>5.6.6-SNAPSHOT</hibernate.version>
 			</properties>
 			<repositories>
 				<repository>
@@ -62,10 +49,11 @@
 			</repositories>
 		</profile>
 		<profile>
-			<id>hibernate-52</id>
+			<id>hibernate-6</id>
 			<properties>
-				<hibernate>5.2.1.Final</hibernate>
-				<hibernate-artifact>hibernate-core</hibernate-artifact>
+				<hibernate.version>6.0.0.CR1</hibernate.version>
+				<hibernate.group>org.hibernate.orm</hibernate.group>
+				<hibernate.artifact-suffix></hibernate.artifact-suffix>
 			</properties>
 		</profile>
 	</profiles>
@@ -73,9 +61,9 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>${hibernate-artifact}</artifactId>
-			<version>${hibernate}</version>
+			<groupId>${hibernate.group}</groupId>
+			<artifactId>hibernate-core${hibernate.artifact-suffix}</artifactId>
+			<version>${hibernate.version}</version>
 		</dependency>
 
 		<dependency>
@@ -85,17 +73,46 @@
 			<scope>runtime</scope>
 		</dependency>
 
+
+		<dependency>
+			<groupId>${hibernate.group}</groupId>
+			<artifactId>hibernate-jpamodelgen${hibernate.artifact-suffix}</artifactId>
+			<version>${hibernate.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>${querydsl.version}</version>
+			<classifier>${querydsl.classifier}</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-apt</artifactId>
+			<version>${querydsl.version}</version>
+			<classifier>${querydsl.classifier}</classifier>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.16.8</version>
+			<version>1.18.22</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -111,47 +128,14 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.mysema.maven</groupId>
-				<artifactId>apt-maven-plugin</artifactId>
-				<version>1.1.3</version>
-				<configuration>
-					<logOnlyOnError>true</logOnlyOnError>
-					<processors>
-						<processor>org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor</processor>
-					</processors>
-				</configuration>
-				<executions>
-					<execution>
-						<id>sources</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>process</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>target/generated-sources/annotations</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>org.hibernate</groupId>
-						<artifactId>hibernate-jpamodelgen</artifactId>
-						<version>1.3.0.Final</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.3</version>
 				<configuration>
-					<!-- http://maven.apache.org/plugins/maven-compiler-plugin/ -->
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>17</source>
+					<target>17</target>
 				</configuration>
 			</plugin>
-
 		</plugins>
 	</build>
 

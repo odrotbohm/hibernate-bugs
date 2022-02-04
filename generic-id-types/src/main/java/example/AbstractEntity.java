@@ -15,11 +15,11 @@
  */
 package example;
 
-import java.io.Serializable;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 
 /**
  * @author Oliver Gierke
