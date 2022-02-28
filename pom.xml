@@ -27,6 +27,7 @@
 		<module>generic-id-types</module>
 		<module>h6-querydsl</module>
 		<module>h6-embedded-id-record</module>
+		<module>ac-to-uuid</module>
 	</modules>
 
 	<profiles>

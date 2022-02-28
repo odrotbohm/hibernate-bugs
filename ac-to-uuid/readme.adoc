@@ -1,0 +1,51 @@
+= Hibernate fails to detect SQL type for AttributeConverter to UUID
+:tabsize: 2
+
+Hibernate persists an entity looking like this just fine:
+
+[source, java]
+----
+@Entity
+class User {
+	private @GeneratedValue @Id Long id;
+	private UUID uuid;
+}
+----
+
+In other words, `UUID` is a type supported basic for fields.
+That said, if you register a JPA `AttributeConverter<SomeValue, UUID`> and change the entity to:
+
+[source, java]
+----
+@Entity
+class User {
+	private @GeneratedValue @Id Long id;
+	private SomeValue wrapper;
+}
+----
+
+The bootstrap of Hibernate fails with:
+
+[source]
+----
+	…
+Caused by: org.hibernate.MappingException: No Dialect mapping for JDBC type: 370370379
+	at org.hibernate.dialect.TypeNames.get(TypeNames.java:71)
+	at org.hibernate.dialect.TypeNames.get(TypeNames.java:103)
+	at org.hibernate.dialect.Dialect.getTypeName(Dialect.java:404)
+	at org.hibernate.mapping.Column.getSqlType(Column.java:238)
+	at org.hibernate.tool.schema.internal.StandardTableExporter.getSqlCreateStrings(StandardTableExporter.java:91)
+	at org.hibernate.tool.schema.internal.StandardTableExporter.getSqlCreateStrings(StandardTableExporter.java:30)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.createTable(AbstractSchemaMigrator.java:295)
+	at org.hibernate.tool.schema.internal.GroupedSchemaMigratorImpl.performTablesMigration(GroupedSchemaMigratorImpl.java:74)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:220)
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:123)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:192)
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:81)
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:335)
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:471)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1498)
+	... 31 more
+----
+
+It looks like it is trying to determine the SQL type to be used solely from the registered SQL types, while the plain property type analysis takes the database dialects into account earlier.
