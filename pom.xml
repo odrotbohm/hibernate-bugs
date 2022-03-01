@@ -28,6 +28,7 @@
 		<module>h6-querydsl</module>
 		<module>h6-embedded-id-record</module>
 		<module>ac-to-uuid</module>
+		<module>uuid-h2-2</module>
 	</modules>
 
 	<profiles>
