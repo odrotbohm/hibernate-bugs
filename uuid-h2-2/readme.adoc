@@ -5,6 +5,7 @@ Data can be persisted but neither JPA lookups, nor finder or delete queries by i
 
 A difference I can spot in the logs is that for 1.4.200 the table is created as follows:
 
+.On H2 1.4.200
 [source]
 ----
 create table MyOrder (id binary not null, primary key (id))
@@ -12,10 +13,19 @@ create table MyOrder (id binary not null, primary key (id))
 
 while it looks like this on 2.0.202:
 
+.On H2 2.0.202
 [source]
 ----
 create table MyOrder (id binary(255) not null, primary key (id))
 ----
 
 I'm wildly guessing that due to the dedicated length specified for 2.0 the parameter value would have to be padded to actually let the query match?
-Does it make sense to rather restrict the columns to a length more appropriate for UUIDs? 
+Does it make sense to rather restrict the columns to a length more appropriate for UUIDs?
+
+It works fine on Hibernate 6 as that uses H2's native UUID type:
+
+.Hibernate 6 CR1 on H2 2.0.202
+[source]
+----
+create table MyOrder (id uuid not null, primary key (id))
+---- 
