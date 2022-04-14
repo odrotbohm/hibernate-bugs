@@ -29,6 +29,7 @@
 		<module>h6-embedded-id-record</module>
 		<module>ac-to-uuid</module>
 		<module>uuid-h2-2</module>
+		<module>explicit-java-type-null</module>
 	</modules>
 
 	<profiles>
@@ -57,6 +58,13 @@
 				<hibernate.group>org.hibernate.orm</hibernate.group>
 				<hibernate.artifact-suffix></hibernate.artifact-suffix>
 			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>jakarta.xml.bind</groupId>
+					<artifactId>jakarta.xml.bind-api</artifactId>
+					<version>4.0.0</version>
+				</dependency>
+			</dependencies>
 		</profile>
 	</profiles>
 

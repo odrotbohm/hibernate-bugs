@@ -1,0 +1,48 @@
+= NullPointerException from EntityManager.createNamedNativeQuery(…)
+
+Trying to create a named native query given the query's name and result type yields a `NullPointerException` in `CompleteResultBuilderBasicValuedStandard`
+
+----
+java.lang.NullPointerException: Cannot invoke "org.hibernate.type.descriptor.java.JavaType.getJavaTypeClass()" because "this.explicitJavaType" is null
+	at org.hibernate.query.results.complete.CompleteResultBuilderBasicValuedStandard.getJavaType(CompleteResultBuilderBasicValuedStandard.java:63)
+	at org.hibernate.query.sql.internal.NativeQueryImpl.<init>(NativeQueryImpl.java:280)
+	at org.hibernate.query.sql.internal.NamedNativeQueryMementoImpl.toQuery(NamedNativeQueryMementoImpl.java:129)
+	at org.hibernate.internal.AbstractSharedSessionContract.lambda$buildNamedQuery$6(AbstractSharedSessionContract.java:964)
+	at org.hibernate.internal.AbstractSharedSessionContract.buildNamedQuery(AbstractSharedSessionContract.java:1016)
+	at org.hibernate.internal.AbstractSharedSessionContract.buildNamedQuery(AbstractSharedSessionContract.java:943)
+	at org.hibernate.internal.AbstractSharedSessionContract.createNamedQuery(AbstractSharedSessionContract.java:846)
+	at org.hibernate.internal.AbstractSessionImpl.createNamedQuery(AbstractSessionImpl.java:23)
+	at example.SampleTest.init(SampleTest.java:34)
+	…
+----
+
+== Bonus: NPE from logging
+
+If you set the log level in `src/test/resources/logback.xml` to `debug`, a different `NullPointerException` occurs.
+In this case, from `org.hibernate.query.sql.internal.NativeQueryImpl.ParameterInterpretationImpl.toString()`:
+
+----
+java.lang.NullPointerException: Cannot invoke "java.util.List.size()" because "this.parameterList" is null
+	at org.hibernate.query.sql.internal.NativeQueryImpl$ParameterInterpretationImpl.toString(NativeQueryImpl.java:1502)
+	at java.base/java.util.Formatter$FormatSpecifier.printString(Formatter.java:3056)
+	at java.base/java.util.Formatter$FormatSpecifier.print(Formatter.java:2933)
+	at java.base/java.util.Formatter.format(Formatter.java:2689)
+	at java.base/java.util.Formatter.format(Formatter.java:2625)
+	at java.base/java.lang.String.format(String.java:4140)
+	at org.jboss.logging.Slf4jLocationAwareLogger.doLogf(Slf4jLocationAwareLogger.java:81)
+	at org.jboss.logging.Logger.debugf(Logger.java:712)
+	at org.hibernate.query.internal.QueryInterpretationCacheStandardImpl.lambda$resolveNativeQueryParameters$0(QueryInterpretationCacheStandardImpl.java:163)
+	at java.base/java.util.concurrent.ConcurrentMap.computeIfAbsent(ConcurrentMap.java:330)
+	at org.hibernate.query.internal.QueryInterpretationCacheStandardImpl.resolveNativeQueryParameters(QueryInterpretationCacheStandardImpl.java:159)
+	at org.hibernate.query.sql.internal.NativeQueryImpl.resolveParameterInterpretation(NativeQueryImpl.java:346)
+	at org.hibernate.query.sql.internal.NativeQueryImpl.<init>(NativeQueryImpl.java:188)
+	at org.hibernate.query.sql.internal.NativeQueryImpl.<init>(NativeQueryImpl.java:217)
+	at org.hibernate.query.sql.internal.NamedNativeQueryMementoImpl.toQuery(NamedNativeQueryMementoImpl.java:129)
+	at org.hibernate.internal.AbstractSharedSessionContract.lambda$buildNamedQuery$6(AbstractSharedSessionContract.java:964)
+	at org.hibernate.internal.AbstractSharedSessionContract.buildNamedQuery(AbstractSharedSessionContract.java:1016)
+	at org.hibernate.internal.AbstractSharedSessionContract.buildNamedQuery(AbstractSharedSessionContract.java:943)
+	at org.hibernate.internal.AbstractSharedSessionContract.createNamedQuery(AbstractSharedSessionContract.java:846)
+	at org.hibernate.internal.AbstractSessionImpl.createNamedQuery(AbstractSessionImpl.java:23)
+	at example.SampleTest.init(SampleTest.java:34)
+	…
+----
