@@ -16,6 +16,11 @@ java.lang.NullPointerException: Cannot invoke "org.hibernate.type.descriptor.jav
 	…
 ----
 
+== How to reproduce
+
+* Works fine: `mvn clean test` (uses Hibernate 5)
+* Breaks: `mvn clean test -Phibernate-6` (uses Hibernate 6)
+
 == Bonus: NPE from logging
 
 If you set the log level in `src/test/resources/logback.xml` to `debug`, a different `NullPointerException` occurs.
