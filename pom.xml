@@ -16,6 +16,7 @@
 		<hibernate.version>5.6.5.Final</hibernate.version>
 		<querydsl.version>5.0.0</querydsl.version>
 		<querydsl.classifier>jakarta</querydsl.classifier>
+		<h2.version>2.1.212</h2.version>
 		<hsqldb1>1.8.0.10</hsqldb1>
 		<hibernate.group>org.hibernate</hibernate.group>
 		<hibernate.artifact-suffix>-jakarta</hibernate.artifact-suffix>
