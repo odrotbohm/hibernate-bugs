@@ -5,10 +5,10 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 
 import java.io.Serializable;
-import java.util.function.Supplier;
 
 import org.hibernate.annotations.EmbeddableInstantiator;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.metamodel.spi.ValueAccess;
 
 @Entity
 public class User {
@@ -30,11 +30,11 @@ public class User {
 
 		/*
 		 * (non-Javadoc)
-		 * @see org.hibernate.metamodel.spi.EmbeddableInstantiator#instantiate(java.util.function.Supplier, org.hibernate.engine.spi.SessionFactoryImplementor)
+		 * @see org.hibernate.metamodel.spi.EmbeddableInstantiator#instantiate(org.hibernate.metamodel.spi.ValueAccess, org.hibernate.engine.spi.SessionFactoryImplementor)
 		 */
 		@Override
-		public Object instantiate(Supplier<Object[]> valuesAccess, SessionFactoryImplementor sessionFactory) {
-			return new UserId(valuesAccess.get()[0].toString());
+		public Object instantiate(ValueAccess valueAccess, SessionFactoryImplementor sessionFactory) {
+			return new UserId(valueAccess.getValue(0, String.class));
 		}
 
 		/*

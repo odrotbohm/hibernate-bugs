@@ -10,7 +10,7 @@
 	<artifactId>h6-embedded-id-record</artifactId>
 	
 	<properties>
-		<hibernate.version>6.0.0.CR1</hibernate.version>
+		<hibernate.version>6.0.1.Final</hibernate.version>
 		<hibernate.artifact-suffix></hibernate.artifact-suffix>
 	</properties>
 	
