@@ -31,6 +31,7 @@
 		<module>ac-to-uuid</module>
 		<module>uuid-h2-2</module>
 		<module>explicit-java-type-null</module>
+		<module>entity-graph-so</module>
 	</modules>
 
 	<profiles>
