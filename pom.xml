@@ -33,6 +33,7 @@
 		<module>explicit-java-type-null</module>
 		<module>entity-graph-so</module>
 		<module>generic-mapped-superclass</module>
+		<module>embeddable-instantiatior</module>
 	</modules>
 
 	<profiles>
